@@ -1,4 +1,4 @@
-# Git ref matrixk action
+# Git ref matrix action
 
 [![GitHub release](https://img.shields.io/github/release/cytopia/git-ref-matrix-action.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action/releases/latest)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-git--ref--matrix--action-blue?logo=github)](https://github.com/marketplace/actions/git-ref-matrix-action)
