@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Get matrix
     outputs:
-      matrix_ref: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
