@@ -74,9 +74,9 @@ runs:
 
 
         ###
-        ### All newline separated refs
+        ### All newline separated refs (and make unique in case of duplicated tags)
         ###
-        REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' )"
+        REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' | sort -u )"
 
         echo "REFS:"
         echo "${REFS}"
