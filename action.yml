@@ -74,7 +74,7 @@ runs:
         JSON=''
         while IFS= read -r line; do
           JSON="${JSON},$( printf '"%s"' "${line}" )"
-        done <<< "${REFS}"a
+        done <<< "${REFS}"
 
         ###
         ### Remove leading comma and encapsulate in square brackets

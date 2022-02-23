@@ -54,7 +54,9 @@ jobs:
     name: build
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+      matrix:
+        ref:
+          - ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: "[SETUP] Checkout repository (ref: ${{ matrix.refs }})"
         uses: actions/checkout@v2
