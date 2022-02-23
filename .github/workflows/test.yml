@@ -6,7 +6,7 @@ on:
 jobs:
   get-matrix:
     runs-on: ubuntu-latest
-    name: Get matrix
+    name: get-matrix
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -26,7 +26,7 @@ jobs:
   info:
     needs: [get-matrix]
     runs-on: ubuntu-latest
-    name: Get matrix
+    name: info
     steps:
       - name: Show outputs (raw)
         run: |
