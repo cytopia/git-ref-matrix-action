@@ -23,6 +23,18 @@ jobs:
           tags: v0.1.0
           num_latest_tags: 1
 
+  info:
+    needs: [get-matrix]
+    runs-on: ubuntu-latest
+    name: Get matrix
+    steps:
+      - name: Show outputs (raw)
+        run: |
+          echo ${{ needs.get-matrix.outputs.matrix }}
+      - name: Show outputs (json)
+        run: |
+          echo ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+
   build:
     needs: [get-matrix]
     runs-on: ubuntu-latest
