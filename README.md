@@ -46,7 +46,7 @@ jobs:
         with:
           repository_default_branch: master
           branches: master
-          tags: v0.1.0
+          tags: v0.1.0,v0.1.1
 
   build:
     needs: [get-matrix]
