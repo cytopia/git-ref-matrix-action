@@ -51,7 +51,7 @@ runs:
         ### Convert comma separated branches and tags to newline separated
         ###
         BRANCHES="$( echo "${{ inputs.branches }}" | sed 's/,/\n/g' )"
-        TAG="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
+        TAGS="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
 
         echo "BRANCHES:"
         echo "${BRANCHES}"
