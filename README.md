@@ -22,9 +22,9 @@ The following inputs can be used to alter the Docker tag name determination:
 
 ## :arrow_backward: Outputs
 
-| Output       | Description                   |
-|--------------|-------------------------------|
-| `matrix`     | Stringified JSON build matrix |
+| Output       | Description                                                   |
+|--------------|---------------------------------------------------------------|
+| `matrix`     | Stringified JSON build matrix. Example: `["master","v0.1.0"]` |
 
 
 ## :computer: Usage
