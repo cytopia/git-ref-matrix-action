@@ -1,0 +1,37 @@
+---
+name: test
+on:
+  pull_request:
+
+jobs:
+  get-matrix:
+    runs-on: ubuntu-latest
+    name: Get matrix
+    outputs:
+      matrix_ref: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Fetch matrix
+        id: set-matrix
+        uses: cytopia/git-ref-matrix-action@v0.1.0
+        with:
+          repository_default_branch: master
+          branches: master
+          tags: v0.1.0
+          num_latest_tags: 1
+
+  build:
+    needs: [get-matrix]
+    runs-on: ubuntu-latest
+    name: build
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+    steps:
+      - name: "[SETUP] Checkout repository (ref: ${{ matrix.refs }})"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ matrix.refs }}
+      - name: Show git
+        run: |
+          git log | head -20
