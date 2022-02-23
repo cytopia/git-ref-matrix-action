@@ -41,8 +41,9 @@ runs:
         fetch-depth: 0
       if: ${{ inputs.num_latest_tags > 0 }}
 
-    - name: "[OUTPUT] Export Matrix 'Refs' with master and latest tag"
+    - name: "[SETUP] Build and Export Matrix"
       id: set-matrix
+      shell: bash
       run: |
 
         ###

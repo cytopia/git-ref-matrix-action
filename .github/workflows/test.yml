@@ -10,9 +10,13 @@ jobs:
     outputs:
       matrix_ref: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Fetch matrix
         id: set-matrix
-        uses: cytopia/git-ref-matrix-action@v0.1.0
+        uses: ./
         with:
           repository_default_branch: master
           branches: master
