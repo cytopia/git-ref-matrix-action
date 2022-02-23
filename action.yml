@@ -39,6 +39,7 @@ runs:
       with:
         ref: ${{ inputs.repository_default_branch }}
         fetch-depth: 0
+        path: .git-ref-matrix-action
       if: ${{ inputs.num_latest_tags > 0 }}
 
     - name: "[SETUP] Build and Export Matrix"
@@ -55,7 +56,12 @@ runs:
         ###
         ### Get x number of latest tags of this repository (newline separated)
         ###
-        LATEST_TAGS="$( git tag --sort=committerdate | tail -${{ inputs.num_latest_tags }} )"
+        if [ "${{ inputs.num_latest_tags }}" != "0" ]; then
+          LATEST_TAGS="$( cd .git-ref-matrix-action && git tag --sort=committerdate | tail -${{ inputs.num_latest_tags }} )"
+          rm -r .git-ref-matrix-action
+        else
+          LATEST_TAGS=''
+        fi
 
         ###
         ### All newline separated refs
