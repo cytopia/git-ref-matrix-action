@@ -53,6 +53,12 @@ runs:
         BRANCHES="$( echo "${{ inputs.branches }}" | sed 's/,/\n/g' )"
         TAG="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
 
+        echo "BRANCHES:"
+        echo "${BRANCHES}"
+
+        echo "TAGS:"
+        echo "${TAGS}"
+
         ###
         ### Get x number of latest tags of this repository (newline separated)
         ###
@@ -63,10 +69,17 @@ runs:
           LATEST_TAGS=''
         fi
 
+        echo "LATEST_TAGS:"
+        echo "${LATEST_TAGS}"
+
+
         ###
         ### All newline separated refs
         ###
         REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' )"
+
+        echo "REFS:"
+        echo "${REFS}"
 
         ###
         ### Create element double-quoted and comma separated string (has leading comma)
@@ -90,3 +103,4 @@ runs:
         ### Output matrix
         ###
         echo "JSON=${JSON}"
+        echo JSON=${JSON}
