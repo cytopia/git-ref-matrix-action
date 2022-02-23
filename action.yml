@@ -1,0 +1,106 @@
+---
+# https://help.github.com/en/articles/metadata-syntax-for-github-actions
+name: 'Git ref matrix action'
+description: "GitHub Action to create a stringified build matrix for branches and tags."
+author: 'cytopia'
+branding:
+  icon: 'code'
+  color: 'red'
+
+inputs:
+  repository_default_branch:
+    description: 'The default branch of this repository to fetch latest tags from. Default: master'
+    required: false
+    default: 'master'
+  branches:
+    description: 'Comma separated list of branches to create build matrix for. Default: none'
+    required: false
+    default: ''
+  tags:
+    description: 'Comma separated list of tags to create build matrix for. Default: none'
+    required: false
+    default: ''
+  num_latest_tags:
+    description: 'Number of latest tags to add to build matrix. Default: 0'
+    required: false
+    default: 0
+
+outputs:
+  matrix:
+    description: "Stringified JSON build matrix for defined git refs."
+    value: ${{ steps.set-matrix.outputs.matrix }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: "[SETUP] Checkout repository's default branch"
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ inputs.repository_default_branch }}
+        fetch-depth: 0
+        path: .git-ref-matrix-action
+      if: ${{ inputs.num_latest_tags > 0 }}
+
+    - name: "[SETUP] Build and Export Matrix"
+      id: set-matrix
+      shell: bash
+      run: |
+
+        ###
+        ### Convert comma separated branches and tags to newline separated
+        ###
+        BRANCHES="$( echo "${{ inputs.branches }}" | sed 's/,/\n/g' )"
+        TAGS="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
+
+        echo "BRANCHES:"
+        echo "${BRANCHES}"
+
+        echo "TAGS:"
+        echo "${TAGS}"
+
+        ###
+        ### Get x number of latest tags of this repository (newline separated)
+        ###
+        if [ "${{ inputs.num_latest_tags }}" != "0" ]; then
+          LATEST_TAGS="$( cd .git-ref-matrix-action && git tag --sort=committerdate | tail -${{ inputs.num_latest_tags }} )"
+          rm -r .git-ref-matrix-action
+        else
+          LATEST_TAGS=''
+        fi
+
+        echo "LATEST_TAGS:"
+        echo "${LATEST_TAGS}"
+
+
+        ###
+        ### All newline separated refs
+        ###
+        REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' )"
+
+        echo "REFS:"
+        echo "${REFS}"
+
+        ###
+        ### Create element double-quoted and comma separated string (has leading comma)
+        ###
+        JSON=''
+        while IFS= read -r line; do
+          JSON="${JSON},$( printf '"%s"' "${line}" )"
+        done <<< "${REFS}"
+
+        ###
+        ### Remove leading comma and encapsulate in square brackets
+        ###
+        JSON="$( printf '[%s]\n' "${JSON#,}" )"
+
+        ###
+        ### Set final output for 'matrix'
+        ###
+        echo "::set-output name=matrix::${JSON}"
+
+        ###
+        ### Output matrix
+        ###
+        echo "JSON=${JSON}"
+        echo JSON=${JSON}
