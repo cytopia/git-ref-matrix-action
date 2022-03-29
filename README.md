@@ -3,7 +3,8 @@
 [![GitHub release](https://img.shields.io/github/release/cytopia/git-ref-matrix-action.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action/releases/latest)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-git--ref--matrix--action-blue?logo=github)](https://github.com/marketplace/actions/git-ref-matrix-action)
 [![](https://img.shields.io/badge/github-cytopia%2Fgit--ref--matrix--action-red.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action "github.com/cytopia/git-ref-matrix-action")
-[![test](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml)
+[![test-with](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with.yml)
+[![test-without](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without.yml)
 
 This composite action creates a stringified JSON list of git refs to be used as a build matrix.
 
@@ -22,9 +23,10 @@ The following inputs can be used to alter the Docker tag name determination:
 
 ## :arrow_backward: Outputs
 
-| Output       | Description                                                   |
-|--------------|---------------------------------------------------------------|
-| `matrix`     | Stringified JSON build matrix. Example: `["master","v0.1.0"]` |
+| Output       | Description                                                                 |
+|--------------|-----------------------------------------------------------------------------|
+| `matrix`     | Stringified JSON build matrix. Example: `["master","v0.1.0"]`               |
+| `has_refs`   | Flag (0 or 1) that tells if we have matrix refs or not. Example: `0` or `1` |
 
 
 ## :computer: Usage
