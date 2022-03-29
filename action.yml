@@ -31,10 +31,10 @@ inputs:
 
 outputs:
   matrix:
-    description: "Stringified JSON build matrix for defined git refs. (list of strings)"
+    description: "(string) Stringified JSON build matrix for defined git refs. (list of strings)"
     value: ${{ steps.set-matrix.outputs.matrix }}
   has_refs:
-    description: "Flag (0 or 1) that tells if we have matrix (list not empty) refs or not (list empty)."
+    description: "(boolean) Flag that tells if we have matrix (list not empty) refs or not (list empty)."
     value: ${{ steps.set-matrix.outputs.has_refs }}
 
 runs:
@@ -58,9 +58,9 @@ runs:
           ### Output matrix
           ###
           echo "::set-output name=matrix::[]"
-          echo "::set-output name=has_refs::0"
+          echo "::set-output name=has_refs::false"
           echo "matrix=[]"
-          echo "has_refs=0"
+          echo "has_refs=false"
         else
           ###
           ### Convert comma separated branches and tags to newline separated
@@ -127,9 +127,9 @@ runs:
           ### Set 'has_refs'
           ###
           if [ "${JSON}" = "[]" ]; then
-            HAS_REFS="0"
+            HAS_REFS="false"
           else
-            HAS_REFS="1"
+            HAS_REFS="true"
           fi
           echo "::set-output name=has_refs::${HAS_REFS}"
 
