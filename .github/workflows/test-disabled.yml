@@ -1,5 +1,5 @@
 ---
-name: test-without
+name: test-disabled
 on:
   pull_request:
 
@@ -20,9 +20,10 @@ jobs:
         uses: ./
         with:
           repository_default_branch: master
-          branches: ""
-          tags: ""
-          num_latest_tags: 0
+          branches: master
+          tags: v0.1.0
+          num_latest_tags: 1
+          disable_refs: 1
 
   info:
     needs: [get-matrix]
