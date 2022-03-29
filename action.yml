@@ -27,8 +27,11 @@ inputs:
 
 outputs:
   matrix:
-    description: "Stringified JSON build matrix for defined git refs."
+    description: "Stringified JSON build matrix for defined git refs. (list of strings)"
     value: ${{ steps.set-matrix.outputs.matrix }}
+  has_refs:
+    description: "Flag (0 or 1) that tells if we have matrix (list not empty) refs or not (list empty)."
+    value: ${{ steps.set-matrix.outputs.has_refs }}
 
 runs:
   using: "composite"
@@ -46,7 +49,6 @@ runs:
       id: set-matrix
       shell: bash
       run: |
-
         ###
         ### Convert comma separated branches and tags to newline separated
         ###
@@ -54,10 +56,14 @@ runs:
         TAGS="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
 
         echo "BRANCHES:"
+        echo "-------------------------"
         echo "${BRANCHES}"
+        echo
 
         echo "TAGS:"
+        echo "-------------------------"
         echo "${TAGS}"
+        echo
 
         ###
         ### Get x number of latest tags of this repository (newline separated)
@@ -70,29 +76,34 @@ runs:
         fi
 
         echo "LATEST_TAGS:"
+        echo "-------------------------"
         echo "${LATEST_TAGS}"
-
+        echo
 
         ###
         ### All newline separated refs (and make unique in case of duplicated tags)
         ###
-        REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' | sort -u )"
+        REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' || true | sort -u )"
 
         echo "REFS:"
+        echo "-------------------------"
         echo "${REFS}"
+        echo
 
         ###
         ### Create element double-quoted and comma separated string (has leading comma)
         ###
         JSON=''
         while IFS= read -r line; do
-          JSON="${JSON},$( printf '"%s"' "${line}" )"
+          if [ -n "${line}" ]; then
+            JSON="${JSON},$( printf '"%s"' "${line}" )"
+          fi
         done <<< "${REFS}"
 
         ###
         ### Remove leading comma and encapsulate in square brackets
         ###
-        JSON="$( printf '[%s]\n' "${JSON#,}" )"
+        JSON="$( printf '[%s]' "${JSON#,}" )"
 
         ###
         ### Set final output for 'matrix'
@@ -100,7 +111,17 @@ runs:
         echo "::set-output name=matrix::${JSON}"
 
         ###
+        ### Set 'has_refs'
+        ###
+        if [ "${JSON}" = "[]" ]; then
+          HAS_REFS="0"
+        else
+          HAS_REFS="1"
+        fi
+        echo "::set-output name=has_refs::${HAS_REFS}"
+
+        ###
         ### Output matrix
         ###
-        echo "JSON=${JSON}"
-        echo JSON=${JSON}
+        echo "matrix=${JSON}"
+        echo "has_refs=${HAS_REFS}"
