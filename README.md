@@ -14,21 +14,21 @@ This composite action creates a stringified JSON list of git refs to be used as 
 
 The following inputs can be used to alter the Docker tag name determination:
 
-| Input                          | Required | Default  | Description                                                                                           |
-|--------------------------------|----------|----------|-------------------------------------------------------------------------------------------------------|
-| `repository_default_branch`    | No       | `master` | Optionally to fetch x number of latest tags from repository's main branch to add to the build matrix. |
-| `branches`                     | No       | ``       | Optionally specify a comma separated list of branches to add to the build matrix.                     |
-| `tags`                         | No       | ``       | Optionally specify a comma separated list of tags to add to the build matrix.                         |
-| `num_latest_tags`              | No       | `0`      | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
-| `disable_refs`                 | No       | `0`      | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=0. Values: `0`, `1`, `false`, `true` |
+| Input                          | Type    | Required | Default  | Description                                                                                           |
+|--------------------------------|---------|----------|----------|-------------------------------------------------------------------------------------------------------|
+| `repository_default_branch`    | string  | No       | `master` | Optionally to fetch x number of latest tags from repository's main branch to add to the build matrix. |
+| `branches`                     | string  | No       | ``       | Optionally specify a comma separated list of branches to add to the build matrix.                     |
+| `tags`                         | string  | No       | ``       | Optionally specify a comma separated list of tags to add to the build matrix.                         |
+| `num_latest_tags`              | number  | No       | `0`      | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
+| `disable_refs`                 | boolean | No       | `false`  | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=false. Values: `0`, `1`, `false`, `true` |
 
 
 ## :arrow_backward: Outputs
 
-| Output       | Description                                                                 |
-|--------------|-----------------------------------------------------------------------------|
-| `matrix`     | Stringified JSON build matrix. Example: `["master","v0.1.0"]`               |
-| `has_refs`   | Flag (0 or 1) that tells if we have matrix refs or not. Example: `0` or `1` |
+| Output       | Type    | Description                                                               |
+|--------------|---------|---------------------------------------------------------------------------|
+| `matrix`     | string  | Stringified JSON build matrix. Example: `["master","v0.1.0"]`             |
+| `has_refs`   | boolean | Flag that tells if we have matrix refs or not. Example: `true` or `false` |
 
 
 ## :computer: Usage
