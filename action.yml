@@ -24,6 +24,10 @@ inputs:
     description: 'Number of latest tags to add to build matrix. Default: 0'
     required: false
     default: 0
+  disable_refs:
+    description: 'A Flag to disable refs alltogether and return an empty matrix and has_refs=0.'
+    required: false
+    default: 0
 
 outputs:
   matrix:
@@ -43,85 +47,95 @@ runs:
         ref: ${{ inputs.repository_default_branch }}
         fetch-depth: 0
         path: .git-ref-matrix-action
-      if: ${{ inputs.num_latest_tags > 0 }}
+      if: ${{ inputs.disable_refs == 0 && inputs.num_latest_tags > 0 }}
 
     - name: "[SETUP] Build and Export Matrix"
       id: set-matrix
       shell: bash
       run: |
-        ###
-        ### Convert comma separated branches and tags to newline separated
-        ###
-        BRANCHES="$( echo "${{ inputs.branches }}" | sed 's/,/\n/g' )"
-        TAGS="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
-
-        echo "BRANCHES:"
-        echo "-------------------------"
-        echo "${BRANCHES}"
-        echo
-
-        echo "TAGS:"
-        echo "-------------------------"
-        echo "${TAGS}"
-        echo
-
-        ###
-        ### Get x number of latest tags of this repository (newline separated)
-        ###
-        if [ "${{ inputs.num_latest_tags }}" != "0" ]; then
-          LATEST_TAGS="$( cd .git-ref-matrix-action && git tag --sort=creatordate | tail -${{ inputs.num_latest_tags }} )"
-          rm -r .git-ref-matrix-action
+        if [ "${{ inputs.disable_refs }}" = "1" ]; then
+          ###
+          ### Output matrix
+          ###
+          echo "::set-output name=matrix::[]"
+          echo "::set-output name=has_refs::0"
+          echo "matrix=[]"
+          echo "has_refs=0"
         else
-          LATEST_TAGS=''
-        fi
+          ###
+          ### Convert comma separated branches and tags to newline separated
+          ###
+          BRANCHES="$( echo "${{ inputs.branches }}" | sed 's/,/\n/g' )"
+          TAGS="$( echo "${{ inputs.tags }}" | sed 's/,/\n/g' )"
 
-        echo "LATEST_TAGS:"
-        echo "-------------------------"
-        echo "${LATEST_TAGS}"
-        echo
+          echo "BRANCHES:"
+          echo "-------------------------"
+          echo "${BRANCHES}"
+          echo
 
-        ###
-        ### All newline separated refs (and make unique in case of duplicated tags)
-        ###
-        REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' || true | sort -u )"
+          echo "TAGS:"
+          echo "-------------------------"
+          echo "${TAGS}"
+          echo
 
-        echo "REFS:"
-        echo "-------------------------"
-        echo "${REFS}"
-        echo
-
-        ###
-        ### Create element double-quoted and comma separated string (has leading comma)
-        ###
-        JSON=''
-        while IFS= read -r line; do
-          if [ -n "${line}" ]; then
-            JSON="${JSON},$( printf '"%s"' "${line}" )"
+          ###
+          ### Get x number of latest tags of this repository (newline separated)
+          ###
+          if [ "${{ inputs.num_latest_tags }}" != "0" ]; then
+            LATEST_TAGS="$( cd .git-ref-matrix-action && git tag --sort=creatordate | tail -${{ inputs.num_latest_tags }} )"
+            rm -r .git-ref-matrix-action
+          else
+            LATEST_TAGS=''
           fi
-        done <<< "${REFS}"
 
-        ###
-        ### Remove leading comma and encapsulate in square brackets
-        ###
-        JSON="$( printf '[%s]' "${JSON#,}" )"
+          echo "LATEST_TAGS:"
+          echo "-------------------------"
+          echo "${LATEST_TAGS}"
+          echo
 
-        ###
-        ### Set final output for 'matrix'
-        ###
-        echo "::set-output name=matrix::${JSON}"
+          ###
+          ### All newline separated refs (and make unique in case of duplicated tags)
+          ###
+          REFS="$( printf "%s\n%s\n%s\n" "${BRANCHES}" "${TAGS}" "${LATEST_TAGS}" | grep -Ev '^$' || true | sort -u )"
 
-        ###
-        ### Set 'has_refs'
-        ###
-        if [ "${JSON}" = "[]" ]; then
-          HAS_REFS="0"
-        else
-          HAS_REFS="1"
+          echo "REFS:"
+          echo "-------------------------"
+          echo "${REFS}"
+          echo
+
+          ###
+          ### Create element double-quoted and comma separated string (has leading comma)
+          ###
+          JSON=''
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then
+              JSON="${JSON},$( printf '"%s"' "${line}" )"
+            fi
+          done <<< "${REFS}"
+
+          ###
+          ### Remove leading comma and encapsulate in square brackets
+          ###
+          JSON="$( printf '[%s]' "${JSON#,}" )"
+
+          ###
+          ### Set final output for 'matrix'
+          ###
+          echo "::set-output name=matrix::${JSON}"
+
+          ###
+          ### Set 'has_refs'
+          ###
+          if [ "${JSON}" = "[]" ]; then
+            HAS_REFS="0"
+          else
+            HAS_REFS="1"
+          fi
+          echo "::set-output name=has_refs::${HAS_REFS}"
+
+          ###
+          ### Output matrix
+          ###
+          echo "matrix=${JSON}"
+          echo "has_refs=${HAS_REFS}"
         fi
-        echo "::set-output name=has_refs::${HAS_REFS}"
-
-        ###
-        ### Output matrix
-        ###
-        echo "matrix=${JSON}"
-        echo "has_refs=${HAS_REFS}"

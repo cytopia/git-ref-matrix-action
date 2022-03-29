@@ -5,6 +5,7 @@
 [![](https://img.shields.io/badge/github-cytopia%2Fgit--ref--matrix--action-red.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action "github.com/cytopia/git-ref-matrix-action")
 [![test-with](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with.yml)
 [![test-without](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without.yml)
+[![test-disabled](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-disabled.yml)
 
 This composite action creates a stringified JSON list of git refs to be used as a build matrix.
 
@@ -19,6 +20,7 @@ The following inputs can be used to alter the Docker tag name determination:
 | `branches`                     | No       | ``       | Optionally specify a comma separated list of branches to add to the build matrix.                     |
 | `tags`                         | No       | ``       | Optionally specify a comma separated list of tags to add to the build matrix.                         |
 | `num_latest_tags`              | No       | `0`      | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
+| `disable_refs`                 | No       | `0`      | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=0. |
 
 
 ## :arrow_backward: Outputs
