@@ -25,7 +25,7 @@ inputs:
     required: false
     default: 0
   disable_refs:
-    description: 'A Flag (0 or 1 or false or true) to disable refs alltogether and return an empty matrix and has_refs=0.'
+    description: 'A string flag (0 or 1 or false or true) to disable refs alltogether and return an empty matrix and has_refs=false.'
     required: false
     default: 0
 
@@ -34,7 +34,7 @@ outputs:
     description: "(string) Stringified JSON build matrix for defined git refs. (list of strings)"
     value: ${{ steps.set-matrix.outputs.matrix }}
   has_refs:
-    description: "(boolean) Flag that tells if we have matrix (list not empty) refs or not (list empty)."
+    description: "(string) String flag ('true' or 'false') that tells if we have matrix (list not empty) refs or not (list empty)."
     value: ${{ steps.set-matrix.outputs.has_refs }}
 
 runs:
