@@ -9,6 +9,7 @@ jobs:
     name: get-matrix
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      has_refs: ${{ steps.set-matrix.outputs.has_refs }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -28,12 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     name: info
     steps:
-      - name: Show outputs (raw)
+      - name: Show outputs
         run: |
-          echo ${{ needs.get-matrix.outputs.matrix }}
-      - name: Show outputs (json)
-        run: |
-          echo ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+          echo 'matrix=${{ needs.get-matrix.outputs.matrix }}'
+          echo 'has_refs=${{ needs.get-matrix.outputs.has_refs }}'
 
   build:
     needs: [get-matrix]
