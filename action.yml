@@ -25,7 +25,7 @@ inputs:
     required: false
     default: 0
   disable_refs:
-    description: 'A Flag to disable refs alltogether and return an empty matrix and has_refs=0.'
+    description: 'A Flag (0 or 1 or false or true) to disable refs alltogether and return an empty matrix and has_refs=0.'
     required: false
     default: 0
 
@@ -47,13 +47,13 @@ runs:
         ref: ${{ inputs.repository_default_branch }}
         fetch-depth: 0
         path: .git-ref-matrix-action
-      if: ${{ inputs.disable_refs == 0 && inputs.num_latest_tags > 0 }}
+      if: ${{ (inputs.disable_refs == 0 || inputs.disable_refs == '0' || inputs.disable_refs == 'false') && inputs.num_latest_tags > 0 }}
 
     - name: "[SETUP] Build and Export Matrix"
       id: set-matrix
       shell: bash
       run: |
-        if [ "${{ inputs.disable_refs }}" = "1" ]; then
+        if [ "${{ inputs.disable_refs }}" = "1" ] || [ "${{ inputs.disable_refs }}" = "true" ]; then
           ###
           ### Output matrix
           ###
