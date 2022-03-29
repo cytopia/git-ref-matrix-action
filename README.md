@@ -20,15 +20,15 @@ The following inputs can be used to alter the Docker tag name determination:
 | `branches`                     | string  | No       | ``       | Optionally specify a comma separated list of branches to add to the build matrix.                     |
 | `tags`                         | string  | No       | ``       | Optionally specify a comma separated list of tags to add to the build matrix.                         |
 | `num_latest_tags`              | number  | No       | `0`      | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
-| `disable_refs`                 | boolean | No       | `false`  | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=false. Values: `0`, `1`, `false`, `true` |
+| `disable_refs`                 | string  | No       | `false`  | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=false. Values: `0`, `1`, `false`, `true` |
 
 
 ## :arrow_backward: Outputs
 
-| Output       | Type    | Description                                                               |
-|--------------|---------|---------------------------------------------------------------------------|
-| `matrix`     | string  | Stringified JSON build matrix. Example: `["master","v0.1.0"]`             |
-| `has_refs`   | boolean | Flag that tells if we have matrix refs or not. Example: `true` or `false` |
+| Output       | Type    | Description                                                                 |
+|--------------|---------|-----------------------------------------------------------------------------|
+| `matrix`     | string  | Stringified JSON build matrix. Example: `["master","v0.1.0"]`               |
+| `has_refs`   | string  | String that tells if we have matrix refs or not. Example: `true` or `false` |
 
 
 ## :computer: Usage
