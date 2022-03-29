@@ -20,7 +20,7 @@ The following inputs can be used to alter the Docker tag name determination:
 | `branches`                     | No       | ``       | Optionally specify a comma separated list of branches to add to the build matrix.                     |
 | `tags`                         | No       | ``       | Optionally specify a comma separated list of tags to add to the build matrix.                         |
 | `num_latest_tags`              | No       | `0`      | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
-| `disable_refs`                 | No       | `0`      | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=0. |
+| `disable_refs`                 | No       | `0`      | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=0. Values: `0`, `1`, `false`, `true` |
 
 
 ## :arrow_backward: Outputs
