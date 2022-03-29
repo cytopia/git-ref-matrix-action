@@ -3,9 +3,9 @@
 [![GitHub release](https://img.shields.io/github/release/cytopia/git-ref-matrix-action.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action/releases/latest)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-git--ref--matrix--action-blue?logo=github)](https://github.com/marketplace/actions/git-ref-matrix-action)
 [![](https://img.shields.io/badge/github-cytopia%2Fgit--ref--matrix--action-red.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action "github.com/cytopia/git-ref-matrix-action")
-[![test-with](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with.yml)
-[![test-without](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without.yml)
-[![test-disabled](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-disabled.yml)
+[![test-with](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with-refs.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with-refs.yml)
+[![test-disabled](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-disabled.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-disabled.yml)
+[![test-without](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without-refs.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without-refs.yml)
 
 This composite action creates a stringified JSON list of git refs to be used as a build matrix.
 
