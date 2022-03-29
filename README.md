@@ -3,6 +3,7 @@
 [![GitHub release](https://img.shields.io/github/release/cytopia/git-ref-matrix-action.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action/releases/latest)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-git--ref--matrix--action-blue?logo=github)](https://github.com/marketplace/actions/git-ref-matrix-action)
 [![](https://img.shields.io/badge/github-cytopia%2Fgit--ref--matrix--action-red.svg?logo=github)](https://github.com/cytopia/git-ref-matrix-action "github.com/cytopia/git-ref-matrix-action")
+
 [![test-with](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with-refs.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-with-refs.yml)
 [![test-disabled](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-disabled.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-disabled.yml)
 [![test-without](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without-refs.yml/badge.svg)](https://github.com/cytopia/git-ref-matrix-action/actions/workflows/test-without-refs.yml)
@@ -14,21 +15,21 @@ This composite action creates a stringified JSON list of git refs to be used as 
 
 The following inputs can be used to alter the Docker tag name determination:
 
-| Input                          | Type    | Required | Default  | Description                                                                                           |
-|--------------------------------|---------|----------|----------|-------------------------------------------------------------------------------------------------------|
-| `repository_default_branch`    | string  | No       | `master` | Optionally to fetch x number of latest tags from repository's main branch to add to the build matrix. |
-| `branches`                     | string  | No       | ``       | Optionally specify a comma separated list of branches to add to the build matrix.                     |
-| `tags`                         | string  | No       | ``       | Optionally specify a comma separated list of tags to add to the build matrix.                         |
-| `num_latest_tags`              | number  | No       | `0`      | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
-| `disable_refs`                 | string  | No       | `false`  | Optionally force to disable all refs alltogether by returning an empty matrix and has_refs=false. Values: `0`, `1`, `false`, `true` |
+| Input                          | Type    | Required | Default   | Description                                                                                           |
+|--------------------------------|---------|----------|-----------|-------------------------------------------------------------------------------------------------------|
+| `repository_default_branch`    | string  | No       | `master`  | Optionally to fetch x number of latest tags from repository's main branch to add to the build matrix. |
+| `branches`                     | string  | No       | ``        | Optionally specify a comma separated list of branches to add to the build matrix.                     |
+| `tags`                         | string  | No       | ``        | Optionally specify a comma separated list of tags to add to the build matrix.                         |
+| `num_latest_tags`              | number  | No       | `0`       | Optionally add x number of latest git tags to the build matrix (requires `repository_default_branch` to point to your repository's main branch. |
+| `disable_refs`                 | string  | No       | `'false'` | Optionally force to disable all refs alltogether by returning an empty matrix. Values: `'0'`, `'1'`, `'false'`, `'true'`<br/><strong>Note:</strong> This is a string value, not a boolean. |
 
 
 ## :arrow_backward: Outputs
 
-| Output       | Type    | Description                                                                 |
-|--------------|---------|-----------------------------------------------------------------------------|
-| `matrix`     | string  | Stringified JSON build matrix. Example: `["master","v0.1.0"]`               |
-| `has_refs`   | string  | String that tells if we have matrix refs or not. Example: `true` or `false` |
+| Output       | Type    | Description                                                                     |
+|--------------|---------|---------------------------------------------------------------------------------|
+| `matrix`     | string  | Stringified JSON build matrix. Example: `["master","v0.1.0"]`                   |
+| `has_refs`   | string  | String that tells if we have matrix refs or not. Example: `'true'` or `'false'`<br/><strong>Note:</strong> This is a string value, not a boolean. |
 
 
 ## :computer: Usage

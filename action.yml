@@ -27,7 +27,7 @@ inputs:
   disable_refs:
     description: 'A string flag (0 or 1 or false or true) to disable refs alltogether and return an empty matrix and has_refs=false.'
     required: false
-    default: 0
+    default: 'false'
 
 outputs:
   matrix:
