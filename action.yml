@@ -57,8 +57,8 @@ runs:
           ###
           ### Output matrix
           ###
-          echo "::set-output name=matrix::[]"
-          echo "::set-output name=has_refs::false"
+          echo "matrix=[]"      >> $GITHUB_OUTPUT
+          echo "has_refs=false" >> $GITHUB_OUTPUT
           echo "matrix=[]"
           echo "has_refs=false"
         else
@@ -121,7 +121,7 @@ runs:
           ###
           ### Set final output for 'matrix'
           ###
-          echo "::set-output name=matrix::${JSON}"
+          echo "matrix=${JSON}" >> $GITHUB_OUTPUT
 
           ###
           ### Set 'has_refs'
@@ -131,7 +131,7 @@ runs:
           else
             HAS_REFS="true"
           fi
-          echo "::set-output name=has_refs::${HAS_REFS}"
+          echo "has_refs=${HAS_REFS}" >> $GITHUB_OUTPUT
 
           ###
           ### Output matrix
