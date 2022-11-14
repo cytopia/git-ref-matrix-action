@@ -47,7 +47,7 @@ runs:
         ref: ${{ inputs.repository_default_branch }}
         fetch-depth: 0
         path: .git-ref-matrix-action
-      if: ${{ (inputs.disable_refs == 0 || inputs.disable_refs == '0' || inputs.disable_refs == 'false') && inputs.num_latest_tags > 0 }}
+      if: ${{ (!inputs.disable_refs || inputs.disable_refs == 0 || inputs.disable_refs == '0' || inputs.disable_refs == 'false') && inputs.num_latest_tags > 0 }}
 
     - name: "[SETUP] Build and Export Matrix"
       id: set-matrix
