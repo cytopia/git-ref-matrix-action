@@ -12,7 +12,7 @@ jobs:
       has_refs: ${{ steps.set-matrix.outputs.has_refs }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Fetch matrix
@@ -45,7 +45,7 @@ jobs:
           - ${{ fromJson(needs.get-matrix.outputs.matrix) }}
     steps:
       - name: "[SETUP] Checkout repository (ref: ${{ matrix.refs }})"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ matrix.refs }}
